@@ -218,7 +218,7 @@
     Digital natives grew up with machines. We're raising <strong>machine natives</strong>: no degree, no gate, just curiosity.
   </p>
 
-  <div class="count" role="timer" aria-label="Time until November 1, 2026">
+  <div class="count" role="timer" aria-label="Time until 22:30 on Saturday 14 November 2026">
     <div class="unit"><b id="d">--</b><small>Days</small></div>
     <div class="unit"><b id="h">--</b><small>Hours</small></div>
     <div class="unit"><b id="m">--</b><small>Min</small></div>
@@ -237,8 +237,10 @@
 </main>
 
 <script>
-  // Countdown target
-  const TARGET = new Date(2026, 10, 1, 0, 0, 0);
+  // Countdown target: Saturday 14.11.2026, 22:30 Hamburg time (CET, UTC+1).
+  // Pinned to a fixed offset so every visitor counts down to the same moment,
+  // regardless of their own time zone.
+  const TARGET = new Date("2026-11-14T22:30:00+01:00");
 
   // Title letters: quick reveal
   (function () {
