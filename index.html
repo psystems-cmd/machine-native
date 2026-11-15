@@ -1,339 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Machine Native</title>
-<meta name="description" content="Machine Native is a community for curious people who build with robots, circuits and code. No degree, no gate, just curiosity. Robot Fight Night: Saturday 14.11.2026, 22:30." />
-<link rel="icon" type="image/png" href="signet.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-<style>
-  :root{
-    --bg:#120803;
-    --orange:#ff7a1a;
-    --hot:#ffb347;
-    --hi:#ffe8cc;
-    --dim:#7a3a12;
-    --pixel:"Press Start 2P", monospace;
-    --mono:"JetBrains Mono", ui-monospace, monospace;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;overflow:hidden}
-  body{
-    background:radial-gradient(ellipse at 50% 40%, #2a1206 0%, var(--bg) 70%);
-    color:var(--orange);
-    font-family:var(--mono);
-    min-height:100svh;
-    display:flex;align-items:center;justify-content:center;
-    position:relative;
-  }
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:20;
-    background:repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.22) 2px 3px);
-    animation:flicker 6s infinite steps(1);
-  }
-  @keyframes flicker{
-    0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:.82} 94%{opacity:1} 97%{opacity:.9}
-  }
-
-  /* floating particles */
-  .px{position:fixed;width:6px;height:6px;background:var(--orange);opacity:0;pointer-events:none;animation:rise linear infinite;z-index:1}
-  .px.tb{
-    width:36px;height:12px;
-    background:linear-gradient(90deg,#c8c8c8 0 14.2%,#c8c800 0 28.4%,#00c8c8 0 42.6%,#00c800 0 56.8%,#c800c8 0 71%,#c80000 0 85.2%,#0000c8 0 100%);
-    box-shadow:0 0 10px rgba(255,255,255,.12);
-  }
-  @keyframes rise{
-    0%{transform:translateY(0);opacity:0}
-    10%{opacity:.7}
-    90%{opacity:.5}
-    100%{transform:translateY(-110vh);opacity:0}
-  }
-
-  /* full-screen Testbild */
-  .testbild{position:fixed;inset:0;z-index:10;pointer-events:none;display:none;background:#000;overflow:hidden}
-  .testbild.on{display:block;animation:tbIn 1s steps(1) forwards}
-  @keyframes tbIn{
-    0%{opacity:1} 8%{opacity:.25} 12%{opacity:1} 18%{opacity:.6} 22%{opacity:1} 80%{opacity:1} 100%{opacity:0}
-  }
-  .tb-main{position:absolute;left:0;right:0;top:0;height:67%;display:flex}
-  .tb-main div{flex:1}
-  .tb-mid{position:absolute;left:0;right:0;top:67%;height:8%;display:flex}
-  .tb-mid div{flex:1}
-  .tb-low{position:absolute;left:0;right:0;top:75%;bottom:0;display:flex}
-  .tb-low div{flex:1}
-  .tb-ring{
-    position:absolute;left:50%;top:50%;width:min(44vh,44vw);height:min(44vh,44vw);
-    transform:translate(-50%,-50%);border:3px solid #fff;border-radius:50%;
-  }
-  .tb-h,.tb-v{position:absolute;background:#fff}
-  .tb-h{left:0;right:0;top:50%;height:2px}
-  .tb-v{top:0;bottom:0;left:50%;width:2px}
-  .tb-label{position:absolute;left:24px;top:20px;color:#fff;font-family:var(--pixel);font-size:clamp(10px,1.6vw,16px);text-shadow:2px 2px 0 #000}
-  .tb-label.r{left:auto;right:24px}
-
-  main{text-align:center;padding:24px;position:relative;z-index:2;width:100%;max-width:820px}
-
-  /* Logo signet: white artwork, warmed with an orange glow to sit in the palette */
-  .signet{
-    display:block;width:clamp(56px,9vw,84px);height:auto;margin:0 auto 22px;
-    filter:drop-shadow(0 0 14px rgba(255,122,26,.55));
-    opacity:0;animation:fadeUp .5s 0s forwards;
-  }
-
-  .status{
-    display:inline-flex;align-items:center;gap:10px;
-    font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--hot);
-    opacity:0;animation:fadeUp .5s .05s forwards;
-  }
-  .dot{width:8px;height:8px;background:var(--orange);box-shadow:0 0 10px var(--orange);animation:blink 1.1s steps(2,start) infinite}
-  @keyframes blink{to{visibility:hidden}}
-
-  h1{
-    margin:28px 0 26px;
-    font-family:var(--pixel);font-weight:400;
-    font-size:clamp(26px,7.4vw,74px);
-    line-height:1.25;
-    color:var(--hi);
-    text-shadow:0 0 18px rgba(255,122,26,.55), 4px 4px 0 var(--dim);
-    animation:glow 3.2s ease-in-out infinite;
-  }
-  h1 .w{display:inline-block;white-space:nowrap}
-  h1 .l{display:inline-block;opacity:0;transform:translateY(-40px);animation:drop .35s cubic-bezier(.2,1.4,.4,1) forwards}
-  h1 .cur{color:var(--orange);text-shadow:none;animation:blink 1s steps(2,start) infinite}
-  @keyframes drop{to{opacity:1;transform:translateY(0)}}
-  @keyframes glow{
-    0%,100%{text-shadow:0 0 14px rgba(255,122,26,.45), 4px 4px 0 var(--dim)}
-    50%{text-shadow:0 0 30px rgba(255,122,26,.9), 4px 4px 0 var(--dim)}
-  }
-
-  .tease{
-    max-width:58ch;margin:0 auto;
-    font-size:clamp(15px,1.9vw,18px);color:var(--hi);line-height:1.6;
-    opacity:0;animation:fadeUp .5s .6s forwards;
-  }
-  .tease strong{color:var(--hot);font-weight:700}
-
-  .count{
-    margin:34px auto 0;display:flex;justify-content:center;gap:clamp(8px,2vw,18px);
-    opacity:0;animation:fadeUp .5s .9s forwards;
-  }
-  .unit{min-width:74px;padding:12px 8px 10px;border:2px solid var(--orange);background:rgba(255,122,26,.05);box-shadow:0 0 22px rgba(255,122,26,.15) inset}
-  .unit b{display:block;font-family:var(--pixel);font-weight:400;font-size:clamp(16px,3vw,26px);color:var(--hi)}
-  .unit b.tick{animation:tick .45s ease-out}
-  @keyframes tick{0%{transform:scale(1.35);color:var(--orange)}100%{transform:scale(1)}}
-  .unit small{display:block;margin-top:8px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
-  .count-label{
-    margin-top:12px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);
-    opacity:0;animation:fadeUp .5s 1s forwards;
-  }
-
-  .dm{
-    margin-top:30px;font-size:clamp(14px,1.8vw,17px);color:var(--hot);
-    opacity:0;animation:fadeUp .5s 1.2s forwards;
-  }
-
-
-  .ig{
-    display:inline-flex;align-items:center;gap:12px;margin-top:28px;text-decoration:none;
-    font-family:var(--pixel);font-size:12px;color:var(--hi);
-    border:2px solid var(--orange);padding:16px 20px;
-    opacity:0;animation:fadeUp .5s 1.3s forwards;
-    transition:background .2s, color .2s, transform .15s;
-  }
-  .ig svg{width:20px;height:20px;flex:none}
-  .ig:hover{background:var(--orange);color:var(--bg);transform:translateY(-3px)}
-  .ig:focus-visible{background:var(--orange);color:var(--bg);outline:3px solid var(--hi);outline-offset:4px}
-
-  @keyframes fadeUp{
-    from{opacity:0;transform:translateY(12px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-
-  /* Phones and short screens: allow scrolling, tighter spacing */
-  @media (max-width:720px), (max-height:700px){
-    html,body{height:auto;overflow-y:auto;overflow-x:hidden}
-    body{min-height:100svh;padding:40px 0}
-  }
-  @media (max-width:520px){
-    main{padding:20px 18px}
-    h1{margin:22px 0 28px;line-height:1.35}
-    .tease{font-size:15px}
-    .count{gap:8px;margin-top:28px}
-    .unit{min-width:0;flex:1;max-width:84px}
-    .count-label{margin-top:10px}
-    .signet{margin-bottom:16px}
-    .ig{margin-top:24px}
-  }
-  @media (max-height:640px){
-    h1{margin:16px 0 18px}
-    .signet{width:48px;margin-bottom:12px}
-    .count{margin-top:20px}
-    .ig{margin-top:18px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition:none!important}
-    h1 .l{opacity:1;transform:none}
-    .px,.testbild{display:none!important}
-  }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Native Berlin | Robotics club and robot events</title>
+<meta name="description" content="Machine Native is a robotics club from Berlin. We bring humanoid robots out of the lab and in front of people. Our first event was Robot Fight Night on 14 November 2026 in Kreuzberg.">
+<link rel="canonical" href="https://machinenative.berlin/">
+<link rel="alternate" hreflang="en" href="https://machinenative.berlin/">
+<link rel="alternate" hreflang="de" href="https://machinenative.berlin/de/">
+<link rel="alternate" hreflang="x-default" href="https://machinenative.berlin/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Machine Native">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Machine Native Berlin | Robotics club and robot events">
+<meta property="og:description" content="Machine Native is a robotics club from Berlin. We bring humanoid robots out of the lab and in front of people. Our first event was Robot Fight Night on 14 November 2026 in Kreuzberg.">
+<meta property="og:url" content="https://machinenative.berlin/">
+<meta property="og:image" content="https://machinenative.berlin/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#020a04">
+<link rel="icon" href="/assets/logo-green.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>document.documentElement.classList.add("js")</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","@id":"https://machinenative.berlin/#org","name":"Machine Native","alternateName":["Machine Native Berlin","MN Berlin"],"url":"https://machinenative.berlin/","logo":"https://machinenative.berlin/assets/logo-green.svg","email":"machinenativeberlin@gmail.com","description":"Machine Native is a robotics club from Berlin. We bring humanoid robots out of the lab and in front of people. Our first event was Robot Fight Night on 14 November 2026 in Kreuzberg.","address":{"@type":"PostalAddress","addressLocality":"Berlin","addressCountry":"DE"},"founder":[{"@type":"Person","@id":"https://machinenative.berlin/#jannik-fuchs","name":"Jannik Fuchs","jobTitle":"Co-initiator","worksFor":{"@id":"https://machinenative.berlin/#org"},"sameAs":["https://www.linkedin.com/in/jannik-fuchs-31487224a"]},{"@type":"Person","@id":"https://machinenative.berlin/#pascal-finn-krebs","name":"Pascal Finn Krebs","jobTitle":"Co-initiator","worksFor":{"@id":"https://machinenative.berlin/#org"},"sameAs":["https://www.linkedin.com/in/pascal-finn-krebs"]}],"contactPoint":{"@type":"ContactPoint","contactType":"press","email":"pascalfinn.krebs@code.berlin","name":"Pascal Finn Krebs"},"knowsAbout":["Robotics","Humanoid robots","Robot boxing","Robotik","Roboter"],"sameAs":["https://www.twitch.tv/machinenative","https://www.instagram.com/machinenative","https://www.linkedin.com/company/machine-native","https://www.tiktok.com/@machine.native"]},{"@context":"https://schema.org","@type":"SportsEvent","name":"Robot Fight Night","alternateName":"Robot boxing Berlin","description":"On Saturday, 14 November 2026, two Unitree G1 humanoid robots met in a show match at W3 Hub in Berlin-Kreuzberg, each one for a Berlin tech startup. It ran like a sports event, with rounds, a referee and judges.","startDate":"2026-11-14T22:30:00+01:00","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","inLanguage":"en","location":{"@type":"Place","name":"W3 Hub","address":{"@type":"PostalAddress","addressLocality":"Berlin","addressRegion":"Kreuzberg","addressCountry":"DE"}},"organizer":[{"@id":"https://machinenative.berlin/#org"},{"@id":"https://machinenative.berlin/#jannik-fuchs"},{"@id":"https://machinenative.berlin/#pascal-finn-krebs"}],"sponsor":[{"@type":"Organization","name":"Black Forest Labs"},{"@type":"Organization","name":"Lyceum"}],"subjectOf":[{"@type":"VideoObject","name":"Boxen ohne Menschen: Zwei Roboter kämpfen in Berlin um den Sieg","url":"https://www.sueddeutsche.de/panorama/boxen-ohne-menschen-zwei-roboter-kaempfen-in-berlin-um-den-sieg-li.3580808","publisher":{"@type":"Organization","name":"Süddeutsche Zeitung"}},{"@type":"VideoObject","name":"Boxen ohne Menschen: Zwei Roboter kämpfen in Berlin um den Sieg","url":"https://web.de/magazine/wissen/videos/wissenschaft-technik/roboter-kaempfen-berlin-sieg-42947954","publisher":{"@type":"Organization","name":"WEB.DE"}},{"@type":"VideoObject","name":"Boxen ohne Menschen: Zwei Roboter kämpfen in Berlin um den Sieg","url":"https://www.youtube.com/watch?v=Tl415tUNTS0","publisher":{"@type":"Organization","name":"Stuttgarter Zeitung"}},{"@type":"VideoObject","name":"Boxen ohne Menschen: Zwei Roboter kämpfen in Berlin um den Sieg","url":"https://www.noz.de/videos/video/Boxen-ohne-Menschen-Zwei-Roboter-k%C3%A4mpfen-in-Berlin-um-den-Sieg-51751649","publisher":{"@type":"Organization","name":"NOZ"}}]},{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"What is Machine Native?","acceptedAnswer":{"@type":"Answer","text":"A robotics club from Berlin. We bring students and anyone curious to real humanoid robots, and we put on public robot events."}},{"@type":"Question","name":"Who is behind Machine Native?","acceptedAnswer":{"@type":"Answer","text":"The club was initiated by Jannik Fuchs and Pascal Finn Krebs."}},{"@type":"Question","name":"Where did Robot Fight Night take place?","acceptedAnswer":{"@type":"Answer","text":"At W3 Hub in Berlin-Kreuzberg on 14 November 2026, at the after party of Unicon 2026 and the Entropy Alignment & Security Hackathon. Two humanoid robots met in a show boxing match."}},{"@type":"Question","name":"Is Machine Native part of CODE University?","acceptedAnswer":{"@type":"Answer","text":"No. We are independent and work with CODE University of Applied Sciences Berlin."}},{"@type":"Question","name":"Will there be more events?","acceptedAnswer":{"@type":"Answer","text":"Yes, the next one is in planning. Sign up in the events section and we'll email you the date."}},{"@type":"Question","name":"Can I use footage from Robot Fight Night?","acceptedAnswer":{"@type":"Answer","text":"The recording is licensed to third parties, so please link to it. Press photos are in the press section. For anything else, write to pascalfinn.krebs@code.berlin."}},{"@type":"Question","name":"How do I reach you?","acceptedAnswer":{"@type":"Answer","text":"General: machinenativeberlin@gmail.com. Press: pascalfinn.krebs@code.berlin."}}]}]</script>
 </head>
 <body>
-<div class="testbild" id="testbild" aria-hidden="true">
-  <div class="tb-main">
-    <div style="background:#c8c8c8"></div>
-    <div style="background:#c8c800"></div>
-    <div style="background:#00c8c8"></div>
-    <div style="background:#00c800"></div>
-    <div style="background:#c800c8"></div>
-    <div style="background:#c80000"></div>
-    <div style="background:#0000c8"></div>
-  </div>
-  <div class="tb-mid">
-    <div style="background:#0000c8"></div>
-    <div style="background:#000"></div>
-    <div style="background:#c800c8"></div>
-    <div style="background:#000"></div>
-    <div style="background:#00c8c8"></div>
-    <div style="background:#000"></div>
-    <div style="background:#c8c8c8"></div>
-  </div>
-  <div class="tb-low">
-    <div style="background:#00214c"></div>
-    <div style="background:#fff"></div>
-    <div style="background:#32006a"></div>
-    <div style="background:#000"></div>
-    <div style="background:#080808"></div>
-    <div style="background:#0a0a0a"></div>
-    <div style="background:#000"></div>
-  </div>
-  <div class="tb-ring"></div>
-  <div class="tb-h"></div>
-  <div class="tb-v"></div>
-  <div class="tb-label">TESTBILD 01</div>
-  <div class="tb-label r">MACHINE NATIVE</div>
-</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="/"><img src="/assets/logo-green.svg" alt="" width="34" height="34"><span>Machine Native</span></a>
+  <nav class="nav" aria-label="Main">
+    <a class="nl" href="#events">Events</a><a class="nl" href="#about">About</a><a class="nl" href="#merch">Merch</a><a class="nl" href="#press">Press</a>
+    <a class="lang" href="/de/" hreflang="de" lang="de">DE</a>
+    <a class="nav-cta" href="#join">Join</a>
+  </nav>
+</div></header>
+<main id="main">
 
-<main>
-  <img class="signet" src="signet.png" width="386" height="386" alt="Machine Native logo" />
-  <div class="status"><span class="dot" aria-hidden="true"></span>Under construction</div>
+<section class="hero"><div class="wrap">
+<div class="win "><div class="win-bar"><span>main.exe</span><span class="ctl" aria-hidden="true"><span>–</span><span>▢</span><span>×</span></span></div><div class="win-body"><h1 class="mark"><span class="full-logo" aria-hidden="true"></span><span class="sr">Machine Native</span></h1><p class="sub">Robotics club from Berlin</p><p class="lede">We bring humanoid robots out of the lab and in front of people. You can watch them, ask how they work and learn to work with them yourself. Curiosity matters more to us than knowledge.</p><div class="btns"><a class="btn" href="#join" data-topic="join">Join the club</a><a class="btn ghost icon" href="https://www.instagram.com/machinenative" target="_blank" rel="noopener" aria-label="Machine Native on Instagram" title="Machine Native on Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a class="btn ghost" href="#events">Our first event</a></div></div></div>
+<div class="seen" aria-labelledby="seen-h"><p class="eyebrow" id="seen-h">As seen on</p><ul><li><a href="https://www.sueddeutsche.de/panorama/boxen-ohne-menschen-zwei-roboter-kaempfen-in-berlin-um-den-sieg-li.3580808" target="_blank" rel="noopener" aria-label="Süddeutsche Zeitung" title="Süddeutsche Zeitung"><span class="logo" style="--h:21px;--r:8.623;--src:url(/assets/outlets/sz.svg)"></span></a></li><li><span role="img" aria-label="watson" title="watson"><span class="logo" style="--h:34px;--r:3.169;--src:url(/assets/outlets/watson.svg)"></span></span></li><li><a href="https://web.de/magazine/wissen/videos/wissenschaft-technik/roboter-kaempfen-berlin-sieg-42947954" target="_blank" rel="noopener" aria-label="WEB.DE" title="WEB.DE"><span class="logo" style="--h:44px;--r:1;--src:url(/assets/outlets/webde.svg)"></span></a></li><li><a href="https://www.youtube.com/watch?v=Tl415tUNTS0" target="_blank" rel="noopener" aria-label="Stuttgarter Zeitung" title="Stuttgarter Zeitung"><span class="logo" style="--h:28px;--r:4.6;--src:url(/assets/outlets/stuttgarter-zeitung.svg)"></span></a></li><li><span role="img" aria-label="Augsburger Allgemeine" title="Augsburger Allgemeine"><span class="logo" style="--h:19px;--r:8.691;--src:url(/assets/outlets/augsburger-allgemeine.svg)"></span></span></li><li><a href="https://www.noz.de/videos/video/Boxen-ohne-Menschen-Zwei-Roboter-k%C3%A4mpfen-in-Berlin-um-den-Sieg-51751649" target="_blank" rel="noopener" aria-label="NOZ" title="NOZ"><span class="logo" style="--h:36px;--r:1.844;--src:url(/assets/outlets/noz.svg)"></span></a></li></ul><p class="seen-note">Coverage of Robot Fight Night, 14 November 2026</p></div>
+</div></section>
 
-  <h1 id="title" aria-label="Machine Native">
-    <span class="w">MACHINE</span> <span class="w">NATIVE<span class="cur" aria-hidden="true">_</span></span>
-  </h1>
+<section id="events"><div class="wrap">
+<div class="win "><div class="win-bar"><span>events.exe</span><span class="ctl" aria-hidden="true"><span>–</span><span>▢</span><span>×</span></span></div><div class="win-body"><p class="eyebrow">// our first event · 14.11.2026</p><h2>Robot Fight Night</h2>
+<div class="grid g2"><div><p class="lede">On Saturday, 14 November 2026, two Unitree G1 humanoid robots met in a show match at W3 Hub in Berlin-Kreuzberg, each one for a Berlin tech startup. It ran like a sports event, with rounds, a referee and judges.</p><p>The evening was part of the after party of Unicon 2026 and the Entropy Alignment & Security Hackathon. For us it was a way to show what humanoid robots can do today, outside a lab and up close.</p>
+<div class="btns"><a class="btn ghost" href="https://www.twitch.tv/machinenative" target="_blank" rel="noopener">Watch the recording on Twitch</a></div><p class="note">The recording is licensed to third parties, so we link to it instead of posting it.</p></div>
+<div><ul class="facts"><li><b>Date</b><span>Saturday, 14 November 2026</span></li><li><b>Venue</b><span>W3 Hub, Berlin-Kreuzberg</span></li><li><b>Format</b><span>Show match, 3 rounds, referee and judges</span></li><li><b>Robots</b><span>2 × Unitree G1</span></li></ul>
+<p class="eyebrow">Powered by</p><div class="sponsors"><span class="sponsor">Black Forest Labs</span><span class="sponsor">Lyceum</span></div></div></div>
+<div class="next" id="next"><div><h3><span class="dot" aria-hidden="true"></span>Next event</h3><p>Our next event is in planning. Leave your email and we'll write to you once the date and venue are set.</p></div><form method="POST" action="https://formspree.io/f/mljbjlge" data-formspree data-ok="You're in. We'll write when the date is set." data-fail="Something went wrong. Please write to machinenativeberlin@gmail.com." data-unset="Form not connected yet (Formspree ID missing).">
+    <label>Email<input type="email" name="email" required autocomplete="email"></label>
+       <input type="hidden" name="form" value="fight-alert">
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <label class="check"><input type="checkbox" name="consent" value="yes" required><span>I agree that Machine Native stores my email address to tell me about the next event. I can withdraw this at any time. <a href="/datenschutz.html">Privacy policy</a> (German).</span></label>
+    <button class="btn" type="submit">Notify me</button>
+    <p class="status" role="status"></p>
+  </form></div></div></div>
+</div></section>
 
-  <p class="tease">
-    A community for curious people who build with <strong>robots, circuits and code</strong>.
-    Digital natives grew up with machines. We're raising <strong>machine natives</strong>: no degree, no gate, just curiosity.
-  </p>
+<section id="about"><div class="wrap">
+<div class="win "><div class="win-bar"><span>about.exe</span><span class="ctl" aria-hidden="true"><span>–</span><span>▢</span><span>×</span></span></div><div class="win-body"><p class="eyebrow">// about</p><h2>Robots up close</h2><p class="lede">Most people only know humanoid robots from videos. We want them in front of people: at events, at the workbench, with students. Machine Native is a grassroots club, open to anyone who's curious.</p>
+<div class="grid g3"><div class="card"><div class="n">01</div><h3>Learning</h3><p>We bring students and anyone curious to real robots. You see how they're controlled and what they still can't do.</p></div><div class="card"><div class="n">02</div><h3>Club</h3><p>Anyone can join. Some of us build, some write code, some run events. You don't need any experience.</p></div><div class="card"><div class="n">03</div><h3>Events</h3><p>We show robots where people are. Our first event was on 14 November 2026, the next one is in planning.</p></div></div>
+<p class="note" style="margin-top:22px">Machine Native is independent and works with CODE University of Applied Sciences Berlin. Machine Native was initiated by Jannik Fuchs and Pascal Finn Krebs.</p>
+<div class="btns"><a class="btn" href="#join" data-topic="join">Join the club</a><a class="btn ghost" href="#join" data-topic="sponsor">Support the next event</a></div></div></div>
+</div></section>
 
-  <div class="count" role="timer" aria-label="Time until Robot Fight Night, 22:30 on Saturday 14 November 2026">
-    <div class="unit"><b id="d">--</b><small>Days</small></div>
-    <div class="unit"><b id="h">--</b><small>Hours</small></div>
-    <div class="unit"><b id="m">--</b><small>Min</small></div>
-    <div class="unit"><b id="s">--</b><small>Sec</small></div>
-  </div>
-  <p class="count-label">Until Robot Fight Night · Sat 14.11 · 22:30</p>
+<section id="merch"><div class="wrap">
+<div class="win "><div class="win-bar"><span>merch.exe</span><span class="ctl" aria-hidden="true"><span>–</span><span>▢</span><span>×</span></span></div><div class="win-body"><p class="eyebrow">// merch</p><h2>Wear the robots.</h2>
+<div class="grid g2"><div><p class="lede">Heavy black tees. MN cube on the front, “shhh – robots are coming” on the back. There's no price yet. Leave your email and we'll tell you when pre-orders open. You don't pay anything now and you're not committing to anything.</p><form method="POST" action="https://formspree.io/f/mljbjlge" data-formspree data-ok="You're on the list. We'll be in touch." data-fail="Something went wrong. Please write to machinenativeberlin@gmail.com." data-unset="Form not connected yet (Formspree ID missing).">
+    <label>Email<input type="email" name="email" required autocomplete="email"></label>
+       <label>Name (optional)<input type="text" name="name" autocomplete="name"></label>
+       <label>Size<select name="size"><option value="">Not sure yet</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select></label>
+       <input type="hidden" name="form" value="merch-waitlist">
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <label class="check"><input type="checkbox" name="consent" value="yes" required><span>I agree that Machine Native stores my email address to notify me about the merch pre-order. I can withdraw this at any time. <a href="/datenschutz.html">Privacy policy</a> (German).</span></label>
+    <button class="btn" type="submit">Put me on the list</button>
+    <p class="status" role="status"></p>
+  </form></div>
+<div class="merch-img"><img src="/assets/merch-front.jpg" alt="Machine Native T-shirt, front" width="1178" height="1130" loading="lazy"><img src="/assets/merch-back.jpg" alt="Machine Native T-shirt, back" width="845" height="835" loading="lazy"></div></div></div></div>
+</div></section>
 
-  <p class="dm">Interested or have a question? Send us a DM.</p>
+<section id="join"><div class="wrap">
+<div class="win "><div class="win-bar"><span>join.exe</span><span class="ctl" aria-hidden="true"><span>–</span><span>▢</span><span>×</span></span></div><div class="win-body"><p class="eyebrow">// get involved</p><h2>Join, sponsor, book us</h2><div class="grid g2"><div><p class="lede">Pick what fits, then tell us in a few lines what you have in mind. We read every message.</p>
+<div class="choices"><a class="choice" href="#join-form" data-topic="join"><b>Join the club</b><span>Build, code or help run events.</span></a><a class="choice" href="#join-form" data-topic="sponsor"><b>Support the next event</b><span>Your name on our next event, in front of an audience and the press.</span></a><a class="choice" href="#join-form" data-topic="booking"><b>Book a show or talk</b><span>Robots at your event, conference or school.</span></a></div></div>
+<div id="join-form"><form method="POST" action="https://formspree.io/f/mljbjlge" data-formspree data-ok="Thanks! We'll get back to you." data-fail="Something went wrong. Please write to machinenativeberlin@gmail.com." data-unset="Form not connected yet (Formspree ID missing).">
+    <label>Name<input type="text" name="name" required autocomplete="name"></label>
+       <label>Email<input type="email" name="email" required autocomplete="email"></label>
+       <label>I want to…<select name="topic"><option value="join" data-msg="Hi Machine Native,
 
-  <a class="ig" href="https://www.instagram.com/machinenative" target="_blank" rel="noopener noreferrer">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-    </svg>
-    Follow @machinenative
-  </a>
+I'd like to join the club. What I'm most curious about: 
+
+What I can bring: ">join the club</option><option value="sponsor" data-msg="Hi Machine Native,
+
+we'd like to support your next event. About us: 
+
+What we have in mind: ">sponsor an event</option><option value="booking" data-msg="Hi Machine Native,
+
+we'd like to book a robot show or talk.
+Occasion: 
+Date and place: 
+Audience size: ">book a show / talk</option><option value="press" data-msg="Hi Machine Native,
+
+I'm writing for (outlet) and have a question about Machine Native: ">ask a press question</option><option value="other" data-msg="">something else</option></select></label>
+       <label>Message<textarea name="message" required></textarea></label>
+       <input type="hidden" name="form" value="contact">
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <label class="check"><input type="checkbox" name="consent" value="yes" required><span>I agree that Machine Native processes my details to answer this request. <a href="/datenschutz.html">Privacy policy</a> (German).</span></label>
+    <button class="btn" type="submit">Send message</button>
+    <p class="status" role="status"></p>
+  </form></div></div></div></div>
+</div></section>
+
+<section id="press"><div class="wrap">
+<div class="win "><div class="win-bar"><span>press_kit.exe</span><span class="ctl" aria-hidden="true"><span>–</span><span>▢</span><span>×</span></span></div><div class="win-body"><p class="eyebrow">// press</p><h2>Press</h2>
+<div class="grid g2"><div><div class="factbox"><h3>In three sentences</h3><p>Machine Native is a grassroots robotics club from Berlin, started by Jannik Fuchs and Pascal Finn Krebs. On 14 November 2026 the club hosted Robot Fight Night at W3 Hub in Berlin-Kreuzberg, a public show match between two humanoid robots (Unitree G1). dpa, Süddeutsche Zeitung, watson, WEB.DE and other outlets reported on the event.</p></div></div>
+<div class="contact"><h3>Press contact</h3><p><b>Pascal Finn Krebs</b><br>Co-initiator, Machine Native<br><a href="mailto:pascalfinn.krebs@code.berlin">pascalfinn.krebs@code.berlin</a></p><p>Interviews with Jannik Fuchs and Pascal Finn Krebs on request.</p><div class="btns"><a class="btn" href="mailto:pascalfinn.krebs@code.berlin?subject=Machine%20Native">Email press contact</a></div></div></div>
+<h3 style="margin-top:36px">Photos</h3><div class="photos"><a class="photo" href="/assets/press/fight-night-01.jpg" download><img src="/assets/press/thumb/fight-night-01.jpg" alt="Humanoid robot in a Black Forest Labs shirt in the ring at W3 Hub, the audience behind the ropes" loading="lazy"><span>Download · JPG</span></a><a class="photo" href="/assets/press/fight-night-02.jpg" download><img src="/assets/press/thumb/fight-night-02.jpg" alt="Two Unitree G1 robots in the ring at Robot Fight Night, one of them mid-air" loading="lazy"><span>Download · JPG</span></a><a class="photo" href="/assets/press/fight-night-03.jpg" download><img src="/assets/press/thumb/fight-night-03.jpg" alt="One robot stands in the ring, the other lies on the mat, the audience cheers" loading="lazy"><span>Download · JPG</span></a></div>
+<p class="note">Free to use for editorial coverage of Machine Native. Please credit “Photo: Machine Native”.</p>
+<h3>Logos</h3><div class="dl"><a class="dark" href="/assets/logo-white.svg" download><img src="/assets/logo-white.svg" alt="" width="96" height="96">White · SVG</a><a class="dark" href="/assets/logo-green.svg" download><img src="/assets/logo-green.svg" alt="" width="96" height="96">Green · SVG</a><a class="light" href="/assets/logo-black.svg" download><img src="/assets/logo-black.svg" alt="" width="96" height="96">Black · SVG</a></div><p class="note">Free to use for reporting on Machine Native. Please don't alter them.</p></div></div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+<div class="win "><div class="win-bar"><span>faq.exe</span><span class="ctl" aria-hidden="true"><span>–</span><span>▢</span><span>×</span></span></div><div class="win-body"><p class="eyebrow">// faq</p><h2>Questions</h2><details><summary>What is Machine Native?</summary><p>A robotics club from Berlin. We bring students and anyone curious to real humanoid robots, and we put on public robot events.</p></details><details><summary>Who is behind Machine Native?</summary><p>The club was initiated by Jannik Fuchs and Pascal Finn Krebs.</p></details><details><summary>Where did Robot Fight Night take place?</summary><p>At W3 Hub in Berlin-Kreuzberg on 14 November 2026, at the after party of Unicon 2026 and the Entropy Alignment & Security Hackathon. Two humanoid robots met in a show boxing match.</p></details><details><summary>Is Machine Native part of CODE University?</summary><p>No. We are independent and work with CODE University of Applied Sciences Berlin.</p></details><details><summary>Will there be more events?</summary><p>Yes, the next one is in planning. Sign up in the events section and we'll email you the date.</p></details><details><summary>Can I use footage from Robot Fight Night?</summary><p>The recording is licensed to third parties, so please link to it. Press photos are in the press section. For anything else, write to <a href="mailto:pascalfinn.krebs@code.berlin">pascalfinn.krebs@code.berlin</a>.</p></details><details><summary>How do I reach you?</summary><p>General: <a href="mailto:machinenativeberlin@gmail.com">machinenativeberlin@gmail.com</a>. Press: <a href="mailto:pascalfinn.krebs@code.berlin">pascalfinn.krebs@code.berlin</a>.</p></details></div></div>
+</div></section>
+
 </main>
-
-<script>
-  // Countdown target: Saturday 14.11.2026, 22:30 Hamburg time (CET, UTC+1).
-  // Pinned to a fixed offset so every visitor counts down to the same moment,
-  // regardless of their own time zone.
-  const TARGET = new Date("2026-11-14T22:30:00+01:00");
-
-  // Title letters: quick reveal
-  (function () {
-    const title = document.getElementById("title");
-    let i = 0;
-    title.querySelectorAll(".w").forEach((w) => {
-      const text = w.textContent.replace("_", "");
-      const cur = w.querySelector(".cur");
-      w.textContent = "";
-      [...text].forEach((ch) => {
-        const s = document.createElement("span");
-        s.className = "l";
-        s.textContent = ch;
-        s.style.animationDelay = (0.05 + i * 0.03) + "s";
-        w.appendChild(s);
-        i++;
-      });
-      if (cur) w.appendChild(cur);
-    });
-  })();
-
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // Floating particles
-  if (!reduced) {
-    for (let k = 0; k < 20; k++) {
-      const p = document.createElement("span");
-      const isBar = Math.random() < 0.3;
-      p.className = "px" + (isBar ? " tb" : "");
-      p.style.left = Math.random() * 100 + "vw";
-      p.style.bottom = "-10px";
-      p.style.animationDuration = (8 + Math.random() * 10) + "s";
-      p.style.animationDelay = (-Math.random() * 14) + "s";
-      if (!isBar) {
-        p.style.width = p.style.height = (3 + Math.floor(Math.random() * 3) * 2) + "px";
-      }
-      document.body.appendChild(p);
-    }
-  }
-
-  // Full-screen Testbild
-  (function () {
-    if (reduced) return;
-    const tb = document.getElementById("testbild");
-    function flash() {
-      tb.classList.remove("on");
-      void tb.offsetWidth;
-      tb.classList.add("on");
-      setTimeout(() => tb.classList.remove("on"), 1000);
-      setTimeout(flash, 9000 + Math.random() * 14000);
-    }
-    setTimeout(flash, 3500);
-  })();
-
-  // Countdown
-  const pad = (n) => String(n).padStart(2, "0");
-  const prev = {};
-  function set(id, val) {
-    const el = document.getElementById(id);
-    if (prev[id] !== val) {
-      prev[id] = val;
-      el.textContent = val;
-      el.classList.remove("tick");
-      void el.offsetWidth;
-      el.classList.add("tick");
-    }
-  }
-  function tick() {
-    const diff = TARGET - new Date();
-    if (diff <= 0) {
-      ["d","h","m","s"].forEach((id) => set(id, "00"));
-      return;
-    }
-    const total = Math.floor(diff / 1000);
-    set("d", pad(Math.floor(total / 86400)));
-    set("h", pad(Math.floor((total % 86400) / 3600)));
-    set("m", pad(Math.floor((total % 3600) / 60)));
-    set("s", pad(total % 60));
-  }
-  tick();
-  setInterval(tick, 1000);
-
-</script>
+<footer><div class="wrap">
+  <div><img src="/assets/logo-green.svg" alt="Machine Native" width="44" height="44"><div>Made in Berlin.</div><a href="mailto:machinenativeberlin@gmail.com">machinenativeberlin@gmail.com</a><div>Press: <a href="mailto:pascalfinn.krebs@code.berlin">pascalfinn.krebs@code.berlin</a></div></div>
+  <div><div class="tag">Follow</div><ul><li><a href="https://www.twitch.tv/machinenative" rel="me noopener" target="_blank">Twitch</a></li><li><a href="https://www.instagram.com/machinenative" rel="me noopener" target="_blank">Instagram</a></li><li><a href="https://www.linkedin.com/company/machine-native" rel="me noopener" target="_blank">LinkedIn</a></li><li><a href="https://www.tiktok.com/@machine.native" rel="me noopener" target="_blank">TikTok</a></li></ul></div>
+  <div><div class="tag">Legal</div><ul><li><a href="/impressum.html">Imprint</a></li><li><a href="/datenschutz.html">Privacy (DE)</a></li></ul></div>
+</div></footer>
+<script src="/assets/app.js" defer></script>
 </body>
 </html>
