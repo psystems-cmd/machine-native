@@ -167,10 +167,9 @@ main, footer { position: relative; z-index: 1; }
 .event-side { display: flex; flex-direction: column; }
 .sponsors { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 12px; flex: 1; margin: 8px 0 0; } /* fills the column to the right and down to the bottom of the text */
 .sponsors .sponsor { justify-content: center; container-type: size; }
-.sponsors .sponsor:first-child { grid-column: 1 / -1; } /* MYBOTSHOP spans the full width above the two logos */
+.sponsors .sponsor:first-child { grid-column: 1 / -1; min-height: 80px; } /* MYBOTSHOP spans the full width above the two logos */
 /* logos (and the MYBOTSHOP name) grow and shrink with their box: as wide as fits, capped by the box height */
 .sponsor .logo { opacity: 1; width: min(72cqw, 62cqh * var(--r)); height: auto; max-width: none; }
-.sponsor .name { font-size: clamp(16px, min(30cqh, 7cqw), 30px); }
 a.sponsor:hover .logo, a.sponsor:focus-visible .logo { background: #fff; }
 .sponsor { display: flex; align-items: center; min-height: 46px; text-decoration: none; border: 1px solid var(--g); padding: 10px 18px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .card { border: 1px solid var(--g-dim); padding: 20px; background: rgba(155,245,160,.03); }
