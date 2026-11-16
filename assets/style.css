@@ -165,7 +165,9 @@ main, footer { position: relative; z-index: 1; }
 .facts li { display: flex; gap: 16px; padding: 8px 0; border-bottom: 1px dashed var(--g-dim); }
 .facts b { flex: 0 0 130px; font-weight: 400; color: var(--g-dim); text-transform: uppercase; font-size: 12px; letter-spacing: .1em; padding-top: 3px; }
 .sponsors { display: flex; flex-wrap: wrap; gap: 12px; margin: 8px 0 20px; }
-.sponsor { border: 1px solid var(--g); padding: 10px 18px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.sponsor .logo { opacity: 1; }
+a.sponsor:hover .logo, a.sponsor:focus-visible .logo { background: #fff; }
+.sponsor { display: flex; align-items: center; min-height: 46px; text-decoration: none; border: 1px solid var(--g); padding: 10px 18px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .card { border: 1px solid var(--g-dim); padding: 20px; background: rgba(155,245,160,.03); }
 .card .n { color: var(--g-dim); font-size: 13px; letter-spacing: .12em; }
 .note { font-size: 13px; color: var(--g-dim); margin-top: 14px; }
