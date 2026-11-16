@@ -1,0 +1,61 @@
+# Machine Native
+
+> A robotics club from Berlin. We bring students and anyone curious to real humanoid robots, and we put on public robot events.
+
+On Saturday, 14 November 2026, two Unitree G1 humanoid robots, provided by MYBOTSHOP, met in a show match at W3 Hub in Berlin-Kreuzberg, each one for a Berlin tech startup. It ran like a sports event, with rounds, a referee and judges.
+
+The evening was part of the after party of Unicon 2026 and the Entropy Alignment & Security Hackathon. For us it was a way to show what humanoid robots can do today, outside a lab and up close.
+
+## Facts
+
+- Date: Saturday, 14 November 2026
+- Venue: W3 Hub, Berlin-Kreuzberg
+- Format: Show match, 3 rounds, referee and judges
+- Robots: 2 × Unitree G1, provided by MYBOTSHOP
+- Supported by: MYBOTSHOP (https://www.mybotshop.de), Black Forest Labs, Lyceum
+- Press coverage: Süddeutsche Zeitung, watson, WEB.DE, Stuttgarter Zeitung, Augsburger Allgemeine, Der Tagesspiegel, NOZ
+
+## FAQ
+
+### What is Machine Native?
+A robotics club from Berlin. We bring students and anyone curious to real humanoid robots, and we put on public robot events.
+
+### Who is behind Machine Native?
+The club was initiated by Jannik Fuchs and Pascal Finn Krebs.
+
+### Where did Robot Fight Night take place?
+At W3 Hub in Berlin-Kreuzberg on 14 November 2026, at the after party of Unicon 2026 and the Entropy Alignment & Security Hackathon. Two humanoid robots met in a show boxing match.
+
+### Where did the robots come from?
+MYBOTSHOP provided both Unitree G1 humanoid robots for Robot Fight Night. MYBOTSHOP (mybotshop.de) sells and supports robots from Unitree and other makers in Germany.
+
+### Is Machine Native part of CODE University?
+No. We are independent and work with CODE University of Applied Sciences Berlin.
+
+### Will there be more events?
+Yes, the next one is in planning. Sign up in the events section and we'll email you the date.
+
+### Can I use footage from Robot Fight Night?
+The recording is licensed to third parties, so please link to it. Press photos are in the press section. For anything else, write to pascalfinn.krebs@code.berlin.
+
+### How do I reach you?
+General: machinenativeberlin@gmail.com. Press: pascalfinn.krebs@code.berlin.
+
+## Links
+
+- [Website (English)](https://www.machine-native.com/)
+- [Website (Deutsch)](https://www.machine-native.com/de/)
+- [Süddeutsche Zeitung: Boxen ohne Menschen](https://www.sueddeutsche.de/panorama/boxen-ohne-menschen-zwei-roboter-kaempfen-in-berlin-um-den-sieg-li.3580808)
+- [WEB.DE: Boxen ohne Menschen](https://web.de/magazine/wissen/videos/wissenschaft-technik/roboter-kaempfen-berlin-sieg-42947954)
+- [Stuttgarter Zeitung: Boxen ohne Menschen](https://www.youtube.com/watch?v=Tl415tUNTS0)
+- [Der Tagesspiegel: Boxen ohne Menschen](https://www.youtube.com/watch?v=g8Rgn8hKUPI)
+- [NOZ: Boxen ohne Menschen](https://www.noz.de/videos/video/Boxen-ohne-Menschen-Zwei-Roboter-k%C3%A4mpfen-in-Berlin-um-den-Sieg-51751649)
+- [twitch](https://www.twitch.tv/machinenative)
+- [instagram](https://www.instagram.com/machinenative)
+- [linkedin](https://www.linkedin.com/company/machine-native)
+- [tiktok](https://www.tiktok.com/@machine.native)
+
+## Contact
+
+- General: machinenativeberlin@gmail.com
+- Press: pascalfinn.krebs@code.berlin
